@@ -1,10 +1,13 @@
 <template>
-  <form class="form" @submit.prevent="(e)=>{$emit('onAddTask', formData); afterSubmit()}">
+  <form class="form" @submit.prevent="()=>{$emit('onAddTask', formData); afterSubmit()}">
     <textarea
       class="text-input data-input"
       name="expireDate"
       v-model="formData.title"
-      @input="(e) => (formData.title = e.target.value)"
+      @input="(e: Event) => {
+        const target = e.target as HTMLInputElement;
+        formData.title = target.value;
+      }"
       placeholder="Новая задача"
     >
     </textarea>
@@ -17,7 +20,10 @@
       <div class="date-picker-title">Выполнить до</div>
       <input
         v-bind:value="formData.expiryDate"
-        @input="(e) => (formData.expiryDate = e.target.value)"
+        @input="(e) => {
+          const target = e.target as HTMLInputElement;
+          formData.expiryDate = new Date(target.value);
+        }"
         class="date-picker data-input"
         type="datetime-local"
       />
@@ -28,18 +34,11 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import { useTaskStore } from "../../stores/TaskStore";
-import { useRouter } from "vue-router";
 
-
-const taskStore = useTaskStore();
 
 const formData = ref<{ title: string; expiryDate?: Date }>({
   title: "",
 });
-
-
-
 
 
 const afterSubmit = ()=>{

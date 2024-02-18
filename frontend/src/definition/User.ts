@@ -6,6 +6,7 @@ export type UserRegistration = {
 };
 
 export type UserAuthorization = {
+    [key: string]: any
     email: string,
     password: string
 };
@@ -17,7 +18,7 @@ export type UserCurrent = {
 
 export type User = {
     id: number,
-    email : string,
+    email: string,
     password: string,
     username: string,
 }

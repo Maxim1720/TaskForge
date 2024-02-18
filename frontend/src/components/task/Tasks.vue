@@ -35,7 +35,6 @@ import { useTaskStore } from "../../stores/TaskStore";
 import { useRoute } from "vue-router";
 import { ref } from "vue";
 import { Task } from "../../definition/Task";
-import { parseData, parseGenericFromData } from "../../utils/jsonDataParser";
 const taskStore = useTaskStore();
 const projectId = useRoute().params.id;
 

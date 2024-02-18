@@ -1,6 +1,9 @@
 import { UserCurrent } from "./User";
 
 export type Project = {
+    
+    [key: string]: any;
+    
     id?: number,
     name: string,
     description: string

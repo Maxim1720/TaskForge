@@ -14,7 +14,8 @@
       <div class="form-inputs_deadline">
         <div class="form-inputs_deadline-label">
           <input type="checkbox" :value="formData.isPublic" name="isPublic" @input="(e)=>{
-            e.target.value = e.target.checked;
+            const target = e.target as HTMLInputElement;
+            target.value = String(target.checked);
             input(e);
           }"/>
           Публичный
@@ -50,10 +51,11 @@ const formData = ref<Project>({
 console.log(formData);
 const input = (e: Event) => {
   console.log(e);
-  const name = e.target.name;
-  const val = e.target.value;
+  const target = e.target as HTMLInputElement;
+  const name = target.name;
+  const val = target.value;
   console.log( name + " " + val);
-  formData.value[name as "name" | "description" | "expiryAt" | "isPublic"] = val;
+  formData.value[target.name]  = target.value;
 };
 </script>
 

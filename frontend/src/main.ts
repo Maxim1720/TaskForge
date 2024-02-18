@@ -1,4 +1,4 @@
-import { createApp, defineAsyncComponent, defineComponent } from 'vue'
+import { createApp, defineComponent } from 'vue'
 import './style.css'
 import App from './App.vue'
 import { createPinia } from 'pinia'
@@ -14,14 +14,14 @@ const routes = [
     {
         path: "/",
         component: defineComponent({}),
-        beforeEnter: (to, from, next) => {
+        beforeEnter: (_to: any, _from: any, next: any) => {
             next(AppPaths.MY_PROJECTS);
         }
     },
     {
         path: AppPaths.MY_PROJECTS,
         component: () => import("./components/project/Projects.vue"),
-        beforeEnter: (to, from, next) => {
+        beforeEnter: (_to: any, _from: any, next: any) => {
             if (sessionStorage.getItem(SessionStorageKeys.AUTH_KEY) === null) {
                 next(AppPaths.AUTHORIZATION);
             }

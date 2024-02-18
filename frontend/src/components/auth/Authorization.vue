@@ -45,12 +45,13 @@ const userAuthData: UserAuthorization = {
 const errors = ref<Error[]>([]);
 
 const onValueChanged = (e: InputEvent) => {
-  const name: "email" | "password" = e.target.name;
-  userAuthData[name] = e.target.value;
-  console.log(userAuthData[name]);
+  const target = e.target as HTMLInputElement;
+  // const name: "email" | "password" = target.name;
+  userAuthData[target.name] = target.value;
+  console.log(userAuthData[target.name]);
 };
 
-const submit = (e: Event) => {
+const submit = () => {
   login(userAuthData).then(() => {
     errors.value = [];
     router.push(AppPaths.MY_PROJECTS);

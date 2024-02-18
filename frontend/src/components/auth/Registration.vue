@@ -23,25 +23,25 @@
 import { Ref, ref } from "vue";
 import { UserRegistration } from "../../definition/User";
 import AuthTextInput from "../UI/FormTextInput.vue";
-import { useUserStore } from "../../stores/UserStore";
 import AuthBtn from "../UI/SubmitBtn.vue";
 import { AppPaths } from "../../definition/Paths";
-import { createRouter, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import SecretTextInput from "../UI/SecretTextInput.vue";
 import Alert from "../UI/utils/Alert.vue";
 import { Error } from "../../definition/Error";
 
-const userStore = useUserStore();
+
 const router = useRouter();
 
-const setValue = (e: Event) => {
+const setValue = (e: InputEvent) => {
   console.log(e);
-  formData.value[e.target.name] = e.target.value;
+  const target = e.target as HTMLInputElement;
+  formData.value[target.name  as "email"|"password"|"username"] = target.value;
 };
 
 const errors = ref<Error[]>([]);
 
-const submit = (e: Event) => {
+const submit = () => {
   fetch("/api/auth/sign-up", {
     method: "POST",
     headers: {
@@ -50,7 +50,6 @@ const submit = (e: Event) => {
     body: JSON.stringify(formData.value),
   }).then((resp) => {
     if (resp.ok) {
-      userStore.add({ ...formData.value });
       router.push(AppPaths.AUTHORIZATION);
       error.value.message = undefined;
     }
@@ -93,8 +92,6 @@ const error = ref<{
   width: 100%;
   height: 100%;
   gap: 10px;
-  //   flex: 1 0 0;
-  // align-self: stretch;
 }
 
 .registration-form {
@@ -102,7 +99,6 @@ const error = ref<{
   width: 575px;
   min-height: 553px;
   padding: 14px 10px;
-  // padding-bottom: 53px;
   flex-direction: column;
   align-items: center;
   gap: 62px;

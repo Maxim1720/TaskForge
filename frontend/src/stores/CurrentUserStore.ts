@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { SessionStorageKeys, Token, User, UserAuthorization, UserCurrent } from "../definition/User";
+import { SessionStorageKeys, UserCurrent } from "../definition/User";
 
 
 // const router = useRouter();

@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { TaskData } from "../../definition/Task";
+import { Task } from "../../definition/Task";
 import { useTaskStore } from "../../stores/TaskStore";
 
 const taskStore = useTaskStore();
-const props = defineProps<{ task: TaskData }>();
+const props = defineProps<{ task: Task }>();
 </script>
   
 <template>
   <div :class="['task', task.done ? 'task-done' : '']">
     <div class="data">
       <div class="data-title">{{ task.title }}</div>
-      <div class="data-date" v-if="task.expiryDate">
-        {{ task.expiryDate.toLocaleString().replace(new RegExp("[T,]"), " ") }}
+      <div class="data-date" v-if="task.expiryAt">
+        {{ task.expiryAt.toLocaleString().replace(new RegExp("[T,]"), " ") }}
       </div>
     </div>
     <div class="buttons">
       <button
-        @click="() => taskStore.doneTask(props.task.id)"
+        @click="() => taskStore.doneTask(props.task)"
         class="buttons-done"
       >
         {{ task.done ? "Не завершено" : "Завершить" }}
@@ -40,8 +40,6 @@ const props = defineProps<{ task: TaskData }>();
   align-items: center;
   gap: 12px;
   border-radius: 15px;
-  //   background: #424769;
-  //   background: #2d3250;
   border: 1px solid #424769;
   box-shadow: inset 0px 0px 12px 0px #424769;
   transition-duration: 0.2s;

@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import { Project } from "../definition/Project";
 import { SessionStorageKeys } from "../definition/User";
-import { AppPaths } from "../definition/Paths";
 
 
 
