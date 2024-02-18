@@ -1,0 +1,12 @@
+LAMPP_PHP := /opt/lampp/bin/php
+
+start: start-db start-backend start-frontend
+
+start-db:
+	docker compose up pg -d
+
+start-backend:
+	cd backend/ && $(LAMPP_PHP) artisan serve &
+
+start-frontend:
+	cd frontend/ && npm run dev
