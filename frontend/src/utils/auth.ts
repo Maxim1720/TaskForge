@@ -62,20 +62,20 @@ export const logout = () => {
     });
 }
 
-export const fetchMe = (): Promise<UserCurrent> => {
-
-    return fetch("/api/auth/me", {
+export const fetchMe = async (): Promise<UserCurrent> => {
+    const authTokenStore = useAuthTokenStore();
+    const resp = await fetch("/api/auth/me", {
         method: "POST",
         headers: {
             "Authorization": authTokenStore.tokenForAuth()
         },
-    })
-        .then(resp => resp.json())
-        .then(json => {
-            console.log(json);
-            
-            return {
-                ...json.data
-            }
-        });
+    });
+    if(!resp.ok){
+        throw new Error(await resp.json().then(json=>json.message));
+    }
+    const json = await resp.json();
+    console.log(json);
+    return {
+        ...json.data
+    };
 }
