@@ -1,6 +1,7 @@
 LAMPP_PHP := /opt/lampp/bin/php
 
 start: start-db start-backend start-frontend
+	@echo "All services started successfully."
 
 start-db:
 	docker compose up pg -d
@@ -10,3 +11,17 @@ start-backend:
 
 start-frontend:
 	cd frontend/ && npm run dev
+
+stop: stop-db stop-backend stop-frontend
+	@echo "All services stopped successfully."
+
+stop-db:
+	docker compose down --remove-orphans
+
+stop-backend:
+	pkill -f "$(LAMPP_PHP) artisan serve"
+
+stop-frontend:
+	@echo "Stopping frontend..."
+	@echo "Please press Ctrl+C to stop the frontend process."
+
