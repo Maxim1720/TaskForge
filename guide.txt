@@ -1,0 +1,6 @@
+1. run db
+	docker compose up pg -d
+2. run backend
+	php artisan serve
+3. run front:
+	npm run dev -- --host
