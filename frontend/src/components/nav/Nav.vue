@@ -11,7 +11,7 @@
           <Suspense>
             <TransitionGroup name="name">
               <template #default>
-                <Me key="me"/>
+                <Me key="me" />
               </template>
               <template key="fallback-me" #fallback>
                 ...
@@ -33,13 +33,13 @@
 
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
-// import { AppPaths } from "../../definition/Paths";
 import { AppPaths } from "../../definition/Paths";
-import { SessionStorageKeys } from "../../definition/User";
 import { logout } from "../../utils/auth";
 import { ref } from "vue";
 import Me from "./Me.vue";
 import { Suspense } from "vue";
+import { useAuthTokenStore } from "../../stores/AuthTokenStore";
+const authTokenStore = useAuthTokenStore();
 const router = useRouter();
 
 const logoutFromAccount = () => {
@@ -49,7 +49,7 @@ const logoutFromAccount = () => {
 
 
 const userAuthenticated = ref(
-  sessionStorage.getItem(SessionStorageKeys.AUTH_KEY) !== null
+  authTokenStore.getToken().accessToken !== ""
 );
 
 const setAuthenticated = (e: CustomEvent<boolean>) => {
@@ -65,24 +65,28 @@ a {
   text-decoration: none;
 }
 
-.name{
-  &-enter{
-    &-active{
+.name {
+  &-enter {
+    &-active {
       transition: all 0.2s;
     }
-    &-from{
+
+    &-from {
       opacity: 0;
     }
   }
-  &-leave{
-    &-active{
+
+  &-leave {
+    &-active {
       transition: all 0.2s;
     }
-    &-to{
+
+    &-to {
       opacity: 0;
     }
   }
 }
+
 .nav {
   display: flex;
   height: 69px;
