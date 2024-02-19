@@ -2,9 +2,9 @@
 <template>
   <div class="container">
     <div class="container">
-      <div class="container" v-if="projects.length>0">
+      <div class="container" v-if="projects.length > 0">
         <ProjectCard v-for="project in projects" :key="project.id" :project="project" :owner="undefined"
-          @open="openProject"/>
+          @open="openProject" />
       </div>
       <div v-else>
         <h2>Пока что у вас нет проектов</h2>
