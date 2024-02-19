@@ -16,8 +16,8 @@
 import { useProjectStore } from '../../stores/ProjectStore';
 import ProjectCard from './ProjectCard.vue';
 import { Project, ProjectWithUser } from '../../definition/Project';
-import { ref } from 'vue';
-import { UserCurrent, SessionStorageKeys } from '../../definition/User';
+import { onMounted, ref } from 'vue';
+import { UserCurrent } from '../../definition/User';
 import { useAuthTokenStore } from '../../stores/AuthTokenStore';
 const authTokenStore = useAuthTokenStore();
 
@@ -53,7 +53,9 @@ const projectsStore = useProjectStore();
 const projects = ref<Project[]>(await projectsStore.getPublic());
 const projectsWithUsers = ref<ProjectWithUser[]>(await getAllProjectsWithUsers());
 
-
+onMounted(async ()=>{
+    projectsWithUsers.value = await getAllProjectsWithUsers();
+});
 
 </script>
 
