@@ -21,26 +21,23 @@ import ProjectCard from "./ProjectCard.vue";
 import { useProjectStore } from "../../stores/ProjectStore";
 import { useRouter } from "vue-router";
 import { AppPaths } from "../../definition/Paths";
-import {  ref } from "vue";
+import { onMounted, ref } from "vue";
+import { Project } from "../../definition/Project";
 
 const projectsStore = useProjectStore();
-const projects = ref(await projectsStore.getCurrentUserProjects()
-.then(projects => projects.map(p => ({
-  ...p,
-  ownerId: undefined
-}))));
-// const loaded = ref<boolean>(false);
+const projects = ref<Project[]>([]);
 
 const router = useRouter();
-
 const openProject = (id: number) => {
   console.log(router.currentRoute.value.path);
   router.replace(router.currentRoute.value.path + "/" + id);
 }
 const openCreate = () => {
   router.push(AppPaths.PROJECTS_CREATE);
-  // loaded.value = true;
 };
+onMounted(async ()=>{
+  projects.value = await projectsStore.getCurrentUserProjects()
+});
 </script>
 
 
