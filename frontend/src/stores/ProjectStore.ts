@@ -4,8 +4,9 @@ import { useAuthTokenStore } from "./AuthTokenStore";
 
 
 export const useProjectStore = defineStore("projectStore", {
-    state: (): { projects: Project[] } => ({
-        projects: []
+    state: (): { projects: Project[], publicProjects: Project[] } => ({
+        projects: [],
+        publicProjects: []
     }),
     actions: {
         async add(p: Project) {
@@ -41,8 +42,6 @@ export const useProjectStore = defineStore("projectStore", {
             })
                 .then(resp => resp.json())
                 .then(json => {
-                    this.projects = [...json.data];
-                    return [...json.data];
                     this.publicProjects = [...json.data];
                     return this.publicProjects;
                 });
