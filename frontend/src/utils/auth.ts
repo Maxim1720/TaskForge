@@ -48,16 +48,17 @@ export const logout = () => {
             Authorization: authTokenStore.tokenForAuth(),
         },
     }).then((resp) => {
-        if (resp.ok) {
-
-            sessionStorage.removeItem(SessionStorageKeys.AUTH_KEY);
-            document.dispatchEvent(
-                new CustomEvent<boolean>("authenticated", { detail: false })
-            );
-        } else {
-            alert("Не могу выйти");
-        }
+        console.log(resp);
+        return resp;
+    }).catch(error => {
+        console.log(error);
+        return Promise.reject(error); // Пробрасываем ошибку дальше
+    }).finally(()=>{
+        console.log("finally");
         authTokenStore.removeToken();
+        document.dispatchEvent(
+            new CustomEvent<boolean>("authenticated", { detail: false })
+        );
     });
 }
 

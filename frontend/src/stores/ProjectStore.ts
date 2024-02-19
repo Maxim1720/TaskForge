@@ -25,7 +25,11 @@ export const useProjectStore = defineStore("projectStore", {
                     return resp;
                 })
                 .then(resp=>resp.json())
-                .then(json=>json.data as Project);
+                .then(json=>{
+                    const project = json.data as Project
+                    this.projects.push(project);
+                    return project;
+                });
         },
 
         async getPublic(): Promise<Project[]> {
@@ -39,6 +43,8 @@ export const useProjectStore = defineStore("projectStore", {
                 .then(json => {
                     this.projects = [...json.data];
                     return [...json.data];
+                    this.publicProjects = [...json.data];
+                    return this.publicProjects;
                 });
         },
 
@@ -50,7 +56,8 @@ export const useProjectStore = defineStore("projectStore", {
                 method: "GET"
             });
             const json = await resp.json();
-            return [...json.data];
+            this.projects = [...json.data];
+            return this.projects;
 
         }
     },
