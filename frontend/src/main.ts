@@ -5,10 +5,13 @@ import { createPinia } from 'pinia'
 import { createRouter, createWebHistory } from 'vue-router';
 import RegistrationVue from './components/auth/Registration.vue';
 import AuthorizationVue from './components/auth/Authorization.vue';
-import { SessionStorageKeys } from './definition/User';
 import { AppPaths } from './definition/Paths';
 import ProjectCreateVue from "./components/project/ProjectCreate.vue";
+import { useAuthTokenStore } from './stores/AuthTokenStore';
 
+const tokenStoreWrapper = ()=>{
+    return useAuthTokenStore();
+}
 
 const routes = [
     {
@@ -22,7 +25,7 @@ const routes = [
         path: AppPaths.MY_PROJECTS,
         component: () => import("./components/project/Projects.vue"),
         beforeEnter: (_to: any, _from: any, next: any) => {
-            if (sessionStorage.getItem(SessionStorageKeys.AUTH_KEY) === null) {
+            if (tokenStoreWrapper().getToken().accessToken == "") {
                 next(AppPaths.AUTHORIZATION);
             }
             else {

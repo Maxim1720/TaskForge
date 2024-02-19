@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import { Project } from "../definition/Project";
-import { SessionStorageKeys } from "../definition/User";
-
+import { useAuthTokenStore } from "./AuthTokenStore";
 
 
 export const useProjectStore = defineStore("projectStore", {
@@ -12,7 +11,7 @@ export const useProjectStore = defineStore("projectStore", {
         async add(p: Project) {
             return await fetch("/api/projects", {
                 headers: {
-                    "Authorization": sessionStorage.getItem(SessionStorageKeys.AUTH_KEY) || ""
+                    "Authorization": useAuthTokenStore().tokenForAuth()
                 },
                 body: JSON.stringify({
                     ...p
@@ -33,7 +32,7 @@ export const useProjectStore = defineStore("projectStore", {
             return fetch("/api/" + "projects?filter=public", {
                 method: "GET",
                 headers:{
-                    "Authorization": sessionStorage.getItem(SessionStorageKeys.AUTH_KEY) || ""
+                    "Authorization": useAuthTokenStore().tokenForAuth()
                 }
             })
                 .then(resp => resp.json())
@@ -46,7 +45,7 @@ export const useProjectStore = defineStore("projectStore", {
         async getCurrentUserProjects(): Promise<Project[]>{
             const resp = await fetch("/api/" + "projects?filter=my", {
                 headers: {
-                    "Authorization": sessionStorage.getItem(SessionStorageKeys.AUTH_KEY) || ""
+                    "Authorization": useAuthTokenStore().tokenForAuth()
                 },
                 method: "GET"
             });

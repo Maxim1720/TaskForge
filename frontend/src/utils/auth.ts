@@ -1,12 +1,13 @@
-import { SessionStorageKeys, Token, UserAuthorization, UserCurrent } from "../definition/User";
+import { Token, UserAuthorization, UserCurrent } from "../definition/User";
+import { useAuthTokenStore } from "../stores/AuthTokenStore";
+
+
 
 export const login = (user: UserAuthorization) => {
 
+    const authTokenStore = useAuthTokenStore();
     const setAuth = (tokenResponse: Token) => {
-        sessionStorage.setItem(
-            SessionStorageKeys.AUTH_KEY,
-            tokenResponse.tokenType + " " + tokenResponse.accessToken
-        );
+        authTokenStore.setToken(tokenResponse);
     };
     function onLoginDone(this: any) {
         document.dispatchEvent(
@@ -40,10 +41,11 @@ export const login = (user: UserAuthorization) => {
 }
 
 export const logout = () => {
+    const authTokenStore = useAuthTokenStore();
     fetch("/api/auth/logout", {
         method: "POST",
         headers: {
-            Authorization: sessionStorage.getItem(SessionStorageKeys.AUTH_KEY) || "",
+            Authorization: authTokenStore.tokenForAuth(),
         },
     }).then((resp) => {
         if (resp.ok) {
@@ -55,6 +57,7 @@ export const logout = () => {
         } else {
             alert("Не могу выйти");
         }
+        authTokenStore.removeToken();
     });
 }
 
@@ -63,8 +66,7 @@ export const fetchMe = (): Promise<UserCurrent> => {
     return fetch("/api/auth/me", {
         method: "POST",
         headers: {
-            Authorization:
-                sessionStorage.getItem(SessionStorageKeys.AUTH_KEY) || "",
+            "Authorization": authTokenStore.tokenForAuth()
         },
     })
         .then(resp => resp.json())

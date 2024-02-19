@@ -1,11 +1,15 @@
 import { defineStore } from "pinia"
 import { Task } from "../definition/Task";
-import { SessionStorageKeys } from "../definition/User";
 import { parseData } from "../utils/jsonDataParser";
+import { useAuthTokenStore } from "./AuthTokenStore";
+
+const authTokenStoreWrapper = ()=>{
+    return useAuthTokenStore();
+}
 
 const request = {
     headers: {
-        "Authorization": sessionStorage.getItem(SessionStorageKeys.AUTH_KEY) || ""
+        "Authorization": authTokenStoreWrapper().tokenForAuth()
     },
 };
 
