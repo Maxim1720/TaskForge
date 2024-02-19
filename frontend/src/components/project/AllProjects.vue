@@ -18,6 +18,8 @@ import ProjectCard from './ProjectCard.vue';
 import { Project, ProjectWithUser } from '../../definition/Project';
 import { ref } from 'vue';
 import { UserCurrent, SessionStorageKeys } from '../../definition/User';
+import { useAuthTokenStore } from '../../stores/AuthTokenStore';
+const authTokenStore = useAuthTokenStore();
 
 const openProject = (id: number) => {
     console.log(id);
@@ -27,7 +29,7 @@ const fetchUser = async (id: number): Promise<UserCurrent> => {
     const resp = await fetch("/api/users/" + id, {
         method: "GET",
         headers: {
-            "Authorization": sessionStorage.getItem(SessionStorageKeys.AUTH_KEY) || "",
+            "Authorization": authTokenStore.tokenForAuth(),
         },
     });
     const json = await resp.json();
@@ -36,7 +38,6 @@ const fetchUser = async (id: number): Promise<UserCurrent> => {
 
 const getProjectWithUser = async (p: Project): Promise<ProjectWithUser> => {
     const user = ref<UserCurrent>(await fetchUser(p.ownerId));
-    console.log(user);
     return {
         user: user.value,
         project: p
