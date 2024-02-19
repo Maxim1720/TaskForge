@@ -4,8 +4,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { SessionStorageKeys, UserCurrent } from '../../definition/User';
-import { fetchMe } from '../../utils/auth';
+import { UserCurrent } from '../../definition/User';
+import { fetchMe, logout } from '../../utils/auth';
 import { useRouter } from 'vue-router';
 import { AppPaths } from '../../definition/Paths';
 
@@ -21,20 +21,9 @@ try {
     console.log(meFetched);
 }
 catch (error) {
+    console.log(error);
+    logout();
     router.push(AppPaths.AUTHORIZATION);
-
-    await fetch("/api/auth/refresh",
-        {
-            headers: {
-                "Authorization": sessionStorage.getItem(SessionStorageKeys.AUTH_KEY) || ""
-            },
-            method: "POST"
-        })
-        .then(resp => resp.json())
-        .then(json => {
-            sessionStorage.setItem(SessionStorageKeys.AUTH_KEY, json.accessToken);
-            fetchMe().then(val => me.value = val);
-        });
 }
 
 </script>
