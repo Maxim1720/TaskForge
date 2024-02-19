@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
-import { SessionStorageKeys, UserCurrent } from "../definition/User";
+import { UserCurrent } from "../definition/User";
+import { useAuthTokenStore } from "./AuthTokenStore";
 
 
 // const router = useRouter();
@@ -12,17 +13,17 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
         }
     }),
     getters: {
-        isAuthorized: function(): boolean {
+        isAuthorized: function (): boolean {
             return this.user.id !== -1;
         },
-        me: function():UserCurrent {
+        me: function (): UserCurrent {
             if (this.isAuthorized) {
                 return this.user;
             }
             const fetchMe = async () => {
                 const resp = await fetch("/api/auth/me", {
                     headers: {
-                        "Authorization": sessionStorage.getItem(SessionStorageKeys.AUTH_KEY) || ""
+                        "Authorization": useAuthTokenStore().tokenForAuth()
                     },
                     method: "POST"
                 });
