@@ -3,7 +3,13 @@ services:
   frontend:
     build: ./frontend/
     ports:
-      - "5173:5173"
+      - "80:5173"
+    networks:
+      - default
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend/:/app/
   pg:
     image: "postgres:15-alpine"
     ports:
@@ -12,3 +18,16 @@ services:
       - POSTGRES_DB=task_tracker
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
+    networks:
+      - default
+    volumes:
+      - ./db-data/:/var/lib/postgresql/data/
+
+  backend:
+      image: erixest/p8.2-super
+      depends_on:
+        - pg
+      volumes:
+        - ./backend:/var/www
+      ports:
+        - "8000:80"
