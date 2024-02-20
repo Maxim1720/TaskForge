@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { Task } from "../../definition/Task";
-import { useTaskStore } from "../../stores/TaskStore";
 
-const taskStore = useTaskStore();
-const props = defineProps<{ task: Task }>();
+const props = defineProps<{ task: Task, public?: boolean }>();
+
 </script>
   
 <template>
@@ -14,15 +13,15 @@ const props = defineProps<{ task: Task }>();
         {{ task.expiryAt.toLocaleString().replace(new RegExp("[T,]"), " ") }}
       </div>
     </div>
-    <div class="buttons">
+    <div class="buttons" v-if="!public">
       <button
-        @click="() => taskStore.doneTask(props.task)"
+        @click="() => $emit('onDone', props.task)"
         class="buttons-done"
       >
         {{ task.done ? "Не завершено" : "Завершить" }}
       </button>
       <button
-        @click="$emit('onDelete', $props.task)"
+        @click="$emit('onDelete', props.task)"
         class="buttons-delete"
       >
         Удалить

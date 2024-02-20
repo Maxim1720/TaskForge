@@ -9,7 +9,9 @@ use App\Models\Project;
 use App\Models\Task;
 use App\Service\ArrayKeysTransformator;
 use App\Service\Query\ProjectTasksQuery;
+use App\Service\Responser;
 use Illuminate\Http\Request;
+use function Symfony\Component\Translation\t;
 
 class TaskController extends Controller
 {
@@ -72,9 +74,20 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task)
+    public function destroy(Project $project, Task $task)
     {
-        //
+//        dd($project, $task);
+//        $id = Task::query()->delete($task->id);
+//        dd($id);
+        Task::destroy([$task->getAttribute("id")]);
+        return Responser::createSuccessResponse(data: [], message: "task deleted");
+    }
+
+    public function done(Project $project, Task $task)
+    {
+        $task->setAttribute("done", !$task->getAttribute("done"));
+        $task->save();
+        return new TaskResource($task);
     }
 }
 

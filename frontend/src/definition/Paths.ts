@@ -4,5 +4,8 @@ export enum AppPaths{
     REGISTRATION = "/sign-up",
     AUTHORIZATION = "/sign-in",
     PROJECTS_CREATE = "/projects/create",
-    MY_PROJECT = MY_PROJECTS+"/:id"
+    MY_PROJECT = MY_PROJECTS+"/:id",
+    PUBLIC_PROJECT = PROJECTS + "/:id",
+
+    NOT_FOUND = "/not-found"
 }

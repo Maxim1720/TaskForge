@@ -23,7 +23,8 @@ export const useCurrentUserStore = defineStore("currentUserStore", {
             const fetchMe = async () => {
                 const resp = await fetch("/api/auth/me", {
                     headers: {
-                        "Authorization": useAuthTokenStore().tokenForAuth()
+                        "Authorization": useAuthTokenStore().tokenForAuth(),
+                        "Accept": "application/json"
                     },
                     method: "POST"
                 });

@@ -25,9 +25,11 @@ services:
 
   backend:
       image: erixest/p8.2-super
+#      user: "1000:1000"
       depends_on:
         - pg
-      volumes:
+      volumes: #mount backend srcs with read-write, group and user id = 1000
         - ./backend:/var/www
+        - ./backend/supervisord.conf:/etc/supervisor/supervisord.conf
       ports:
         - "8000:80"

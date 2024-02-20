@@ -14,9 +14,9 @@ import { Suspense } from "vue";
     <Suspense>
       <router-view v-slot="{ Component }">
         <Transition name="router" mode="out-in"  class="main">
-          <keep-alive>
+<!--          <keep-alive>-->
             <component #default :is="Component" />
-          </keep-alive>
+<!--          </keep-alive>-->
         </Transition>
       </router-view>
       <template class="w-full border border-red-100" #fallback>
@@ -27,16 +27,26 @@ import { Suspense } from "vue";
 </template>
 
 <style lang="scss" scoped>
+
 .router {
+
   &-enter {
+    width: 100%;
     &-active {
       transition: all 0.2s;
+      //transition: all 2s;
+
     }
 
     &-from {
       opacity: 0;
       height: 0;
-      transform: translateY(-150px);
+      //width: 100%;
+      transform: translateX(10svh);
+    }
+
+    &-to{
+      width: 100%;
     }
   }
 
@@ -46,9 +56,10 @@ import { Suspense } from "vue";
     }
 
     &-to {
-      transform: scale(0);
+      //transform: scale(0);
       opacity: 0;
       height: 0;
+      transform: translateY(10svh) scale(0);
     }
   }
 }

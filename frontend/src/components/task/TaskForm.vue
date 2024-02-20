@@ -1,49 +1,53 @@
 <template>
   <form class="form" @submit.prevent="()=>{$emit('onAddTask', formData); afterSubmit()}">
     <textarea
-      class="text-input data-input"
-      name="expireDate"
-      v-model="formData.title"
-      @input="(e: Event) => {
-        const target = e.target as HTMLInputElement;
-        formData.title = target.value;
-      }"
-      placeholder="Новая задача"
+        class="text-input data-input"
+        name="title"
+        v-model="formData.title"
+
+        placeholder="Новая задача"
     >
+
+<!--      @input="(e: Event) => {-->
+<!--        const target = e.target as HTMLInputElement;-->
+<!--        formData.title = target.value;-->
+<!--      }"-->
+
     </textarea>
     <div
-      :class="[
+        :class="[
         'date-picker-section',
-        formData.expiryDate ? 'date-picker-section-active' : '',
+        formData.expiryAt ? 'date-picker-section-active' : '',
       ]"
     >
       <div class="date-picker-title">Выполнить до</div>
       <input
-        v-bind:value="formData.expiryDate"
-        @input="(e) => {
+         v-model="formData.expiryAt"
+          class="date-picker data-input"
+          type="datetime-local"
+      />
+<!--
+ v-bind:value="formData.expiryDate"
+          @input="(e) => {
           const target = e.target as HTMLInputElement;
           formData.expiryDate = new Date(target.value);
         }"
-        class="date-picker data-input"
-        type="datetime-local"
-      />
+-->
+
     </div>
     <button class="save-btn" type="submit">Добавить задачу</button>
   </form>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import {ref} from "vue";
 
-
-const formData = ref<{ title: string; expiryDate?: Date }>({
+const formData = ref<{ title: string; expiryAt?: Date }>({
   title: "",
 });
-
-
-const afterSubmit = ()=>{
+const afterSubmit = () => {
   formData.value.title = "";
-  formData.value.expiryDate = undefined;
+  formData.value.expiryAt = undefined;
 }
 </script>
 
@@ -103,7 +107,7 @@ const afterSubmit = ()=>{
   color: rgba(255, 255, 255, 0.5);
   text-align: center;
   font-family: "Raleway";
-  font-size: 24px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 400;
   line-height: 4em;
@@ -121,9 +125,11 @@ const afterSubmit = ()=>{
   flex-shrink: 0;
   opacity: 50%;
   transition-duration: 0.3s;
+
   &-active {
     opacity: 100%;
   }
+
   &:hover {
     opacity: 100%;
   }

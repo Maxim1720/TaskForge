@@ -27,13 +27,36 @@ use Illuminate\Support\Facades\Route;
 Route::get('/test', function () {
     return response()->json(["test" => "ok"]);
 });
-Route::apiResource("projects", ProjectController::class);
-Route::apiResource("projects/{project}/tasks", TaskController::class);
+
+
+//Route::group(["middleware"=>"auth"], function (){
+//
+//});
+
+//Route::apiResource("projects", ProjectController::class);
+//Route::apiResource("projects/{project}/tasks", TaskController::class);
+//Route::post("projects/{project}/tasks/{task}/done", [TaskController::class, "done"]);
+
+
+Route::group([],function () {
+    Route::apiResource('projects', ProjectController::class);
+
+    Route::prefix('projects')->group(function () {
+
+        Route::bind("project", function ($val){
+            return \App\Models\Project::query()->findOrFail($val);
+        });
+
+        Route::apiResource('{project}/tasks', TaskController::class);
+        Route::post("{project}/tasks/{task}/done", [TaskController::class, "done"]);
+    });
+});
+
 
 Route::group([
     "middleware" => "api",
     "prefix" => "auth"
-], function ($router) {
+], function () {
     Route::post('login', [AuthController::class, "login"]);
     Route::post('logout', [AuthController::class, "logout"]);
     Route::post('refresh', [AuthController::class, "refresh"]);

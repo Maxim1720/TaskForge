@@ -8,7 +8,10 @@
         <hr />
         <h2>Активные</h2>
         <transition-group tag="div" name="list" class="tasks">
-          <TaskCard v-for="task in undone" :key="task.id" :task="task" @onDelete="deleteTask"/>
+          <TaskCard v-for="task in undone" :key="task.id" :task="task"
+                    @onDelete="deleteTask"
+                    @onDone="doneTask"
+          />
         </transition-group>
       </div>
     </transition>
@@ -18,12 +21,15 @@
         <hr />
         <h2>Выполненные</h2>
         <transition-group name="list" tag="div" class="tasks">
-          <TaskCard v-for="task in done" :key="task.id" :task="task" />
+          <TaskCard v-for="task in done" :key="task.id" :task="task"
+                    @onDelete="deleteTask"
+                    @onDone="doneTask"
+          />
         </transition-group>
       </div>
     </transition>
     <transition name="section">
-      <h2 v-if="!taskStore.all.length">Задач нет!</h2>
+      <h2 v-if="!done.length && !undone.length">Задач нет!</h2>
     </transition>
   </div>
 </template>
@@ -45,8 +51,16 @@ const undone = ref(await taskStore.getUndoneTasks(Number(projectId)));
 
 console.log(done);
 
+const doneTask = (task: Task)=>{
+  taskStore.doneTask(task).then(async json=>{
+    console.log(json);
+    undone.value = await taskStore.getUndoneTasks(task.projectId);
+    done.value = await taskStore.getDoneTasks(task.projectId);
+  });
+}
 
 const submit = (task: Task) => {
+  console.log(task);
   taskStore.addTask({
     ...task,
     done: false,
@@ -62,7 +76,7 @@ const submit = (task: Task) => {
 };
 
 const deleteTask = (task: Task) =>{
-  console.log(task);
+  // console.log(task);
   taskStore.deleteTask(task).then(async data=>{
     if(undone.value.find(v=>v.id===task.id)){
       undone.value = await taskStore.getUndoneTasks(task.projectId);

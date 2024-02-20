@@ -19,10 +19,13 @@ import { Project, ProjectWithUser } from '../../definition/Project';
 import { onMounted, ref } from 'vue';
 import { UserCurrent } from '../../definition/User';
 import { useAuthTokenStore } from '../../stores/AuthTokenStore';
+import {router} from "../../router/routes.ts";
+import {AppPaths} from "../../definition/Paths.ts";
 const authTokenStore = useAuthTokenStore();
 
 const openProject = (id: number) => {
-    console.log(id);
+  const currentUrl = router.currentRoute.value.path;
+  router.push(currentUrl+`/${id}`);
 };
 
 const fetchUser = async (id: number): Promise<UserCurrent> => {

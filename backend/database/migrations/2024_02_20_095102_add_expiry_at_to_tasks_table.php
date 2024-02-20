@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('projects', function (Blueprint $table) {
-            $table->renameColumn("user_id", "owner_id");
+        Schema::table('tasks', function (Blueprint $table) {
+            $table->dateTime("expiry_at")->nullable();
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('projects', function (Blueprint $table) {
-
+        Schema::table('tasks', function (Blueprint $table) {
+            //
         });
     }
 };

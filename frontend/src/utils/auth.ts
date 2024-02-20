@@ -3,12 +3,13 @@ import { useAuthTokenStore } from "../stores/AuthTokenStore";
 
 
 
-export const login = (user: UserAuthorization) => {
+export const login = async (user: UserAuthorization) => {
 
     const authTokenStore = useAuthTokenStore();
     const setAuth = (tokenResponse: Token) => {
         authTokenStore.setToken(tokenResponse);
     };
+
     function onLoginDone(this: any) {
         document.dispatchEvent(
             new CustomEvent<boolean>("authenticated", {
@@ -17,7 +18,8 @@ export const login = (user: UserAuthorization) => {
         );
 
     }
-    return fetch("/api/auth/login", {
+
+    let resp1 = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -26,40 +28,41 @@ export const login = (user: UserAuthorization) => {
             email: user.email,
             password: user.password,
         }),
-    })
-        .then((resp) => {
-            if (resp.status === 401) {
-                throw new Error("Неверный логин или пароль");
-            }
-            return resp;
-        })
-        .then((resp) => resp.json())
-        .then((json) => {
-            setAuth(json);
-            onLoginDone();
-        })
+    });
+    if (resp1.status === 401) {
+        throw new Error("Неверный логин или пароль");
+    }
+    else if(resp1.status === 400){
+        return resp1.json();
+    }
+    let resp2: Response = resp1;
+    let json: any = await resp2.json();
+    setAuth(json);
+    onLoginDone();
+    return json;
 }
 
-export const logout = () => {
+export const logout = async () => {
     const authTokenStore = useAuthTokenStore();
-    fetch("/api/auth/logout", {
-        method: "POST",
-        headers: {
-            Authorization: authTokenStore.tokenForAuth(),
-        },
-    }).then((resp) => {
+    try {
+        let resp = await fetch("/api/auth/logout", {
+            method: "POST",
+            headers: {
+                Authorization: authTokenStore.tokenForAuth(),
+            },
+        });
         console.log(resp);
         return resp;
-    }).catch(error => {
+    } catch (error) {
         console.log(error);
         return Promise.reject(error); // Пробрасываем ошибку дальше
-    }).finally(()=>{
+    } finally {
         console.log("finally");
         authTokenStore.removeToken();
         document.dispatchEvent(
-            new CustomEvent<boolean>("authenticated", { detail: false })
+            new CustomEvent<boolean>("authenticated", {detail: false})
         );
-    });
+    }
 }
 
 export const fetchMe = async (): Promise<UserCurrent> => {

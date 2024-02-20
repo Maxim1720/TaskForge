@@ -2,8 +2,10 @@
   <nav class="nav">
     <div class="nav-task" v-if="userAuthenticated">
       <div class="nav-task">
-        <router-link :to="AppPaths.MY_PROJECTS" class="nav-link" active-class="nav-link-active">Мои проекты</router-link>
-        <router-link :to="AppPaths.PROJECTS" class="nav-link" active-class="nav-link-active">Публичные проекты</router-link>
+        <router-link :to="AppPaths.MY_PROJECTS" class="nav-link" active-class="nav-link-active">Мои проекты
+        </router-link>
+        <router-link :to="AppPaths.PROJECTS" class="nav-link" active-class="nav-link-active">Публичные проекты
+        </router-link>
       </div>
       <div class="nav-auth" v-if="userAuthenticated">
         <div class="nav-link">
@@ -11,7 +13,7 @@
           <Suspense>
             <TransitionGroup name="name">
               <template #default>
-                <Me key="me" />
+                <Me key="me"/>
               </template>
               <template key="fallback-me" #fallback>
                 ...
@@ -32,24 +34,26 @@
 </template>
 
 <script lang="ts" setup>
-import { useRouter } from "vue-router";
-import { AppPaths } from "../../definition/Paths";
-import { logout } from "../../utils/auth";
-import { ref } from "vue";
+import {useRouter} from "vue-router";
+import {AppPaths} from "../../definition/Paths";
+import {logout} from "../../utils/auth";
+import {ref} from "vue";
 import Me from "./Me.vue";
-import { Suspense } from "vue";
-import { useAuthTokenStore } from "../../stores/AuthTokenStore";
+import {Suspense} from "vue";
+import {useAuthTokenStore} from "../../stores/AuthTokenStore";
+
 const authTokenStore = useAuthTokenStore();
 const router = useRouter();
 
 const logoutFromAccount = () => {
-  logout();
-  router.push(AppPaths.AUTHORIZATION);
+  logout().then(() => {
+    router.push(AppPaths.AUTHORIZATION);
+  });
 };
 
 
 const userAuthenticated = ref(
-  authTokenStore.getToken().accessToken !== ""
+    authTokenStore.getToken().accessToken !== ""
 );
 
 const setAuthenticated = (e: CustomEvent<boolean>) => {

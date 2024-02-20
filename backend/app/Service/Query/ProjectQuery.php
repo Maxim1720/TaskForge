@@ -11,8 +11,7 @@ class ProjectQuery extends QueryTransformer
 
     public function __construct()
     {
-//        $this->filterValues["filter"][] = Auth::user()->getAuthIdentifier();
-//        dd($this->filterValues);
+
     }
 
     protected array $filterOperators = [
@@ -20,19 +19,21 @@ class ProjectQuery extends QueryTransformer
     ];
 
     protected array $filterParams = [
-        "filter"=>"owner_id"
+        "filter"=>"owner_id",
     ];
 
     protected array $filterValues = [
-        "filter"=>["all", "my"]
+        "filter"=>["public", "my"]
     ];
 
     public function filter(Request $request): array
     {
         $query = [];
         $requestParam = $request->get("filter");
-        $query[] = ["owner_id", "=",  Auth::user()->getAuthIdentifier()];
-        if(!$requestParam == "my"){
+        if($requestParam === "my") {
+            $query[] = ["owner_id", "=", Auth::user()->getAuthIdentifier()];
+        }
+        else if($requestParam === "public"){
             $query[] = ["is_public", "=", "true"];
         }
         return $query;

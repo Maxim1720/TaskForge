@@ -12,7 +12,8 @@ export const useProjectStore = defineStore("projectStore", {
         async add(p: Project) {
             return await fetch("/api/projects", {
                 headers: {
-                    "Authorization": useAuthTokenStore().tokenForAuth()
+                    "Authorization": useAuthTokenStore().tokenForAuth(),
+                    "Accept":"application/json"
                 },
                 body: JSON.stringify({
                     ...p
@@ -50,11 +51,13 @@ export const useProjectStore = defineStore("projectStore", {
         async getCurrentUserProjects(): Promise<Project[]>{
             const resp = await fetch("/api/" + "projects?filter=my", {
                 headers: {
-                    "Authorization": useAuthTokenStore().tokenForAuth()
+                    "Authorization": useAuthTokenStore().tokenForAuth(),
+                    "Accept":"application/json"
                 },
                 method: "GET"
             });
             const json = await resp.json();
+            console.log(json);
             this.projects = [...json.data];
             return this.projects;
 

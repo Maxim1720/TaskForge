@@ -15,14 +15,8 @@ return new class extends Migration {
             $table->timestamps();
             $table->string("title")->nullable(false);
             $table->boolean("done")->nullable(false);
-
             $table->foreignId("project_id")
-                ->constrained("projects", "id");
-//            $table->unsignedBigInteger("project_id");
-            /*$table->foreign("project_id")
-                ->references("id")
-                ->on("projects")
-                ->onDelete("cascade");*/
+                ->constrained("projects");
         });
 
     }

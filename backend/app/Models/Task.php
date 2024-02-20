@@ -14,5 +14,5 @@ class Task extends Model
     private string $title;
     private bool $done;
 
-    protected $fillable = ["title", "done", "project_id"];
+    protected $fillable = ["title", "done", "project_id", "expiry_at"];
 }

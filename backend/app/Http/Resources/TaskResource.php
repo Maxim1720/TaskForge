@@ -15,6 +15,6 @@ class TaskResource extends JsonResource
     public function toArray(Request $request): array
     {
         $capitalizator = new CapitalizePropertiesResource($this->resource);
-        return parent::toArray($request);
+        return $capitalizator->toArray($request);
     }
 }

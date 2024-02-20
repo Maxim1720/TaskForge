@@ -4,17 +4,17 @@
       <h2 class="form-title">Авторизация</h2>
       <div class="form-inputs">
         <AuthTextInput inputName="email" input-placeholder="Email" :input-value="userAuthData.email"
-          @valueChanged="onValueChanged" />
+                       @valueChanged="onValueChanged"/>
 
         <PasswordInput inputName="password" input-placeholder="Пароль" :input-value="userAuthData.password"
-          @valueChanged="onValueChanged" />
+                       @valueChanged="onValueChanged"/>
         <div class="form-inputs-submit">
-          <auth-btn value="Войти" />
+          <auth-btn value="Войти"/>
         </div>
       </div>
       <Transition name="errors" mode="out-in">
         <div v-if="errors.length > 0">
-          <Alert v-for="error in errors" :message="error.errors.map(e => e.message).join('\n')" danger />
+          <Alert v-for="error in errors" :message="error.errors.map(e => e.message).join('\n')" danger/>
         </div>
       </Transition>
 
@@ -29,12 +29,13 @@ import {
 import AuthTextInput from "../UI/FormTextInput.vue";
 import PasswordInput from "../UI/SecretTextInput.vue";
 import AuthBtn from "../UI/SubmitBtn.vue";
-import { useRouter } from "vue-router";
-import { AppPaths } from "../../definition/Paths";
-import { login } from "../../utils/auth";
-import { Error } from "../../definition/Error";
-import { ref } from "vue";
+import {useRouter} from "vue-router";
+import {AppPaths} from "../../definition/Paths";
+import {login} from "../../utils/auth";
+import {Error} from "../../definition/Error";
+import {ref} from "vue";
 import Alert from "../UI/utils/Alert.vue";
+import {Data, ResponseStatuses} from "../../definition/Data.ts";
 
 const router = useRouter();
 const userAuthData: UserAuthorization = {
@@ -52,13 +53,30 @@ const onValueChanged = (e: InputEvent) => {
 };
 
 const submit = () => {
-  login(userAuthData).then(() => {
+  login(userAuthData).then((json: Data | undefined) => {
+    console.log(json);
     errors.value = [];
     router.push(AppPaths.MY_PROJECTS);
+
+    if (json?.status === ResponseStatuses.ERROR) {
+      errors.value = [
+        {
+          errors: [
+            ...Object.keys(json?.data).map(k => (
+                {
+                  message: json.data[k]
+                }
+            ))
+          ]
+        }
+      ]
+    }
+
+
   }).catch(err => {
     errors.value = [{
       errors: [
-        { message: err.message }
+        {message: err.message}
       ]
     }];
   });
@@ -77,11 +95,13 @@ const submit = () => {
       scale: 0;
     }
   }
-  &-leave{
-    &-active{
+
+  &-leave {
+    &-active {
       transition: all 0.3s ease-in-out;
     }
-    &-to{
+
+    &-to {
       opacity: 0;
       scale: 0;
     }
