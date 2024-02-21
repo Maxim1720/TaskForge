@@ -57,13 +57,6 @@ const routes = [
         name: AppPaths.PUBLIC_PROJECT,
         path: AppPaths.PUBLIC_PROJECT,
         component: ()=> import("../components/task/PublicTasks.vue")
-
-
-
-
-
-
-
     }
 ];
 
@@ -100,15 +93,12 @@ const routerRules: RouterRule[] = [
 ]
 router.beforeEach((_to,
                    _from, _next) => {
-
-
     const isValidRoute = router.hasRoute(_to.name as string);
 
     if (!isValidRoute) {
         _next(AppPaths.NOT_FOUND);
         return;
     }
-
     const isAuthenticated = tokenStoreWrapper().getToken().accessToken !== "";
     let guard = isAuthenticated ? "auth" : "guest";
     const routeRule = routerRules.find(rule => rule.guard === guard);
@@ -116,19 +106,7 @@ router.beforeEach((_to,
         _next();
         return;
     }
-
     _next(routeRule?.otherwisePath || AppPaths.NOT_FOUND);
-
-
-    // if(!isValidRoute){
-    //     _next(AppPaths.NOT_FOUND);
-    // }
-    // if (isAuthenticated && listOfGuestPaths.includes(_to.path)) {
-    //     _next(AppPaths.MY_PROJECTS);
-    // } else if (!isAuthenticated && !listOfGuestPaths.includes(_to.path)) {
-    //     _next(AppPaths.AUTHORIZATION);
-    // }
-    // _next();
 });
 
 export {router};
