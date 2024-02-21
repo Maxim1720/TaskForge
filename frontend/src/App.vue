@@ -34,15 +34,11 @@ import { Suspense } from "vue";
     width: 100%;
     &-active {
       transition: all 0.2s;
-      //transition: all 2s;
-
     }
 
     &-from {
       opacity: 0;
       height: 0;
-      //width: 100%;
-      transform: translateX(10svh);
     }
 
     &-to{
