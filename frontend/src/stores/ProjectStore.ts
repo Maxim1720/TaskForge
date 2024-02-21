@@ -61,6 +61,18 @@ export const useProjectStore = defineStore("projectStore", {
             this.projects = [...json.data];
             return this.projects;
 
+        },
+
+        async getById(id: number): Promise<Project>{
+            const resp = await  fetch('/api/projects/'+id, {
+                headers:{
+                    Accept: "application/json",
+                    Authorization: useAuthTokenStore().tokenForAuth()
+                },
+                method: "GET"
+            });
+            const json = await resp.json();
+            return json.data as Project;
         }
     },
     
