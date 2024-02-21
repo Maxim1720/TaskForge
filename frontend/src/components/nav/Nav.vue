@@ -123,7 +123,7 @@ a {
 
     color: var(--primary, #676f9d);
     text-align: center;
-    font-family: "Lato";
+    font-family: "Lato",sans-serif;
     font-size: 24px;
     font-style: normal;
     font-weight: 400;
@@ -134,7 +134,7 @@ a {
 
     &-active {
       color: #fff;
-      text-shadow: 0px 2px 4px #fff;
+      text-shadow: 0 2px 4px #fff;
       // text-shadow: #fff;
       // text-shadow:5px 10px;
     }

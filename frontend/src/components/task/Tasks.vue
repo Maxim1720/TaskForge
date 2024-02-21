@@ -166,7 +166,7 @@ const deleteTask = (task: Task) =>{
 hr {
   width: 120%;
   opacity: 75%;
-  box-shadow: 0px 0px 14px 0px #000;
+  box-shadow: 0 0 14px 0 #000;
   background-color: #424769;
   height: 1px;
   border: none;

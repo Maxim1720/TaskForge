@@ -70,7 +70,7 @@ import { Suspense } from "vue";
   gap: 36px;
 
   // border-bottom: 1px solid rgba(66, 71, 105, 0.75);
-  box-shadow: 0px 4px 12px -9px #000;
+  box-shadow: 0 4px 12px -9px #000;
 }
 
 .main {
@@ -80,7 +80,6 @@ import { Suspense } from "vue";
   width: 100%;
   height: 100%;
   flex: 1 0 0;
-  width: 100%;
   // margin: 0 auto;
 }
 
