@@ -1,6 +1,14 @@
 
 <template>
   <div class="container">
+
+    <a @click="()=>$router.go(-1)" class="absolute left-10 rounded-3xl bg-white p-2 cursor-pointer hover:bg-amber-200 font-extrabold">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+           stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
+      </svg>
+    </a>
+
     <TaskForm @onAddTask="submit"/>
 
     <transition name="section">
