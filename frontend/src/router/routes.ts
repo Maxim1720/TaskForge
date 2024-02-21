@@ -90,16 +90,23 @@ const routerRules: RouterRule[] = [
         },
         otherwisePath: AppPaths.AUTHORIZATION
     }
-]
+];
+
+
+const sendAuthEvent = (isAuth: boolean)=> {
+    document.dispatchEvent(new CustomEvent("authenticated", {
+        detail: isAuth
+    }));
+};
 router.beforeEach((_to,
                    _from, _next) => {
     const isValidRoute = router.hasRoute(_to.name as string);
-
     if (!isValidRoute) {
         _next(AppPaths.NOT_FOUND);
         return;
     }
     const isAuthenticated = tokenStoreWrapper().getToken().accessToken !== "";
+    sendAuthEvent(isAuthenticated);
     let guard = isAuthenticated ? "auth" : "guest";
     const routeRule = routerRules.find(rule => rule.guard === guard);
     if (routeRule?.canRoute(_to.path)) {
