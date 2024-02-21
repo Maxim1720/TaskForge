@@ -37,9 +37,8 @@
 import {useRouter} from "vue-router";
 import {AppPaths} from "../../definition/Paths";
 import {logout} from "../../utils/auth";
-import {ref} from "vue";
+import {ref, Suspense} from "vue";
 import Me from "./Me.vue";
-import {Suspense} from "vue";
 import {useAuthTokenStore} from "../../stores/AuthTokenStore";
 
 const authTokenStore = useAuthTokenStore();
@@ -57,8 +56,7 @@ const userAuthenticated = ref(
 );
 
 const setAuthenticated = (e: CustomEvent<boolean>) => {
-  const val = e.detail;
-  userAuthenticated.value = val;
+  userAuthenticated.value = e.detail;
 };
 
 document.addEventListener("authenticated", setAuthenticated as EventListener);
