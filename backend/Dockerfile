@@ -23,4 +23,5 @@ RUN docker-php-ext-install pdo pdo_pgsql pgsql zip bcmath gd
 
 
 WORKDIR /var/www/html
-
+COPY ./composer.json ./istc/
+RUN cd istc && composer install
