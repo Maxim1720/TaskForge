@@ -42,10 +42,12 @@ const setValue = (e: InputEvent) => {
 const errors = ref<Error[]>([]);
 
 const submit = () => {
+  errors.value = [];
   fetch("/api/auth/sign-up", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "Accept": "application/json"
     },
     body: JSON.stringify(formData.value),
   }).then((resp) => {
