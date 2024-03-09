@@ -25,24 +25,9 @@ class ProjectTasksQuery extends QueryTransformer
         "isDone" => ["true", "false"],
     ];
 
-//    public function filter(Request $request): array
-//    {
-//        $requestQueries = $request->all();
-//
-////        dd($requestQueries);
-//        $eloQuery = [];
-//        $eloQuery[] = ["project_id", "=", $this->id];
-//        foreach ($requestQueries as $param => $value) {
-//            if (in_array($param, array_keys($this->filterParams))
-//                && in_array($value, $this->filterValues[$param])) {
-//                $eloQuery[] = [
-//                    $this->filterParams[$param],
-//                    $this->filterOperators[$param][0],
-//                    $value
-//                ];
-//            }
-//        }
-//        return $eloQuery;
-//    }
+    public function filter(Request $request): array
+    {
+        return array_merge(parent::filter($request), [["project_id", "=", $this->id]]);
+    }
 
 }
