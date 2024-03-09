@@ -1,0 +1,81 @@
+@startuml
+
+!theme plain
+top to bottom direction
+
+
+class CanBeEscapedWhenCastToString
+class HasBroadcastChannel
+class HasFactory
+class HasGlobalScopes
+class HasRelationships {
+   relationResolvers: 
+   touches: 
+   manyMethods: 
+   relations: 
+}
+class HasTimestamps {
+   timestamps: 
+   ignoreTimestampsOn: 
+}
+class HidesAttributes {
+   visible: 
+   hidden: 
+}
+class Jsonable
+class Model {
+   isBroadcasting: 
+   missingAttributeViolationCallback: 
+   preventsLazyLoading: 
+   escapeWhenCastingToString: 
+   ignoreOnTouch: 
+   globalScopes: 
+   modelsShouldPreventSilentlyDiscardingAttributes: 
+   connection: 
+   booted: 
+   lazyLoadingViolationCallback: 
+   keyType: 
+   dispatcher: 
+   table: 
+   modelsShouldPreventLazyLoading: 
+   resolver: 
+   traitInitializers: 
+   wasRecentlyCreated: 
+   incrementing: 
+   with: 
+   withCount: 
+   perPage: 
+   modelsShouldPreventAccessingMissingAttributes: 
+   exists: 
+   discardedAttributeViolationCallback: 
+   primaryKey: 
+}
+class Project {
+   fillable: 
+}
+class Task {
+   project_id: 
+   id: 
+   title: 
+   fillable: 
+   done: 
+}
+class User {
+   hidden: 
+   casts: 
+   fillable: 
+}
+
+Model                         -[#008200,dashed]-^  CanBeEscapedWhenCastToString 
+Model                         -[#008200,dashed]-^  HasBroadcastChannel          
+Model                         -[#008200,dashed]-^  HasGlobalScopes              
+Model                         -[#008200,dashed]-^  HasRelationships             
+Model                         -[#008200,dashed]-^  HasTimestamps                
+Model                         -[#008200,dashed]-^  HidesAttributes              
+Model                         -[#008200,dashed]-^  Jsonable                     
+Project                       -[#008200,dashed]-^  HasFactory                   
+Project                       -[#000082,plain]-^  Model                        
+Task                          -[#008200,dashed]-^  HasFactory                   
+Task                          -[#000082,plain]-^  Model                        
+User                          -[#000082,plain]-^  Model                        
+@enduml

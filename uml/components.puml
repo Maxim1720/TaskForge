@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+
+
+package "Task Forge Components" {
+database DB
+  [Frontend] - HTTP
+  HTTP - [Backend]
+  [Backend]- Eloquent
+  Eloquent - DB
+}
+
+@enduml

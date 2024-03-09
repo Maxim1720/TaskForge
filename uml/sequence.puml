@@ -1,0 +1,180 @@
+@startuml
+autonumber
+
+actor User as u
+participant Frontend as f
+participant Backend as b
+database DB as d
+
+== Первое использование ==
+u->f : Открытие \n приложения
+activate u
+activate f
+return Перенаправление\n на\n страницу\n авторизации
+
+u->f : Переход\n на\n страницу\n регистрации
+activate f
+return Страница\n регистрации
+
+u->f : Регистрация
+activate f
+return Страница\n авторизации
+
+
+
+
+deactivate u
+deactivate f
+deactivate b
+
+
+autonumber
+== Имеется аккаунт ==
+
+u->f: Авторизация
+activate u
+activate f
+f->b: Отправка\nданных\nпользователя
+activate b
+b->d: вставка новой строки
+activate d
+return успешное сохранение
+return Успешное\nсохранение
+return Страница\n личных\n проектов
+
+
+deactivate u
+deactivate f
+deactivate b
+
+autonumber
+== Создание проекта ==
+
+
+u->f: переход на страницу создания
+activate u
+activate f
+return страница создания
+
+u->f: отправка формы создания
+activate f
+f->b: отправка данных проекта
+activate b
+b->d: вставка новой строки
+activate d
+return успешное сохранение
+return успешное создание
+return страница личных проектов
+
+deactivate u
+deactivate f
+deactivate b
+
+
+autonumber
+
+== Создание задачи ==
+
+u->f: переход на страницу создания задачи
+activate u
+activate f
+return страница создания задачи
+
+u->f: отправка формы создания задачи
+activate f
+f->b: отправка данных задачи
+activate b
+b->d: вставка новой строки
+activate d
+return успешное сохранение
+return успешное создание задачи
+return страница проекта с новой задачей
+
+deactivate u
+deactivate f
+deactivate b
+
+
+autonumber
+== Редактирование задачи ==
+
+u->f: переход на страницу\n редактирования задачи
+activate u
+activate f
+return страница редактирования задачи
+
+u->f: отправка формы редактирования задачи
+activate f
+f->b: отправка обновленных\n данных задачи
+activate b
+b->d: обновление\n записи в базе данных
+activate d
+return успешное обновление
+return успешное\n редактирование задачи
+return страница проекта\n с отредактированной задачей
+
+deactivate u
+deactivate f
+deactivate b
+
+
+autonumber
+== Удаление задачи ==
+
+u->f: удаление задачи
+activate u
+activate f
+f->b: запрос на удаление задачи
+activate b
+b->d: удаление записи из базы данных
+activate d
+return успешное удаление
+return страница проекта\n без удаленной задачи
+
+deactivate u
+deactivate f
+deactivate b
+
+
+autonumber
+== Редактирование проекта ==
+
+u->f: переход на страницу\n редактирования проекта
+activate u
+activate f
+return страница редактирования проекта
+
+u->f: отправка формы\n редактирования проекта
+activate f
+f->b: отправка\n обновленных данных проекта
+activate b
+b->d: обновление\n записи в базе данных
+activate d
+return успешное\n обновление
+return успешное\n редактирование\n проекта
+return страница личных проектов
+
+deactivate u
+deactivate f
+deactivate b
+
+
+autonumber
+== Удаление проекта ==
+
+u->f: удаление проекта
+activate u
+activate f
+f->b: запрос на удаление\n проекта и всех\n связанных задач
+activate b
+b->d: удаление проекта\n и всех связанных задач\n из базы данных
+activate d
+return успешное удаление
+return страница\n личных\n проектов\n без\n удаленного\n проекта\n и связанных задач
+
+deactivate u
+deactivate f
+deactivate b
+
+
+@enduml

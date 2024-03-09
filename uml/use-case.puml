@@ -1,0 +1,47 @@
+@startuml
+!theme amiga
+
+actor User
+actor "База Данных" as db
+
+usecase (Просмотр\n данных) as read
+usecase (Создание\n данных) as createData
+usecase (Удаление\n данных) as delete
+usecase (Обновление\n данных) as update
+
+usecase (Регистрация) as register
+usecase (Авторизация) as auth
+
+User --down-- read
+read -down- db
+
+User -down- createData
+createData -down- db
+
+User -down- delete
+delete -down- db
+
+User --down- update
+update -down-- db
+
+User -down- auth
+auth -down- db
+
+
+createData <|-up- register : <<extend>>
+createData <|-up- (Создание\n проекта) : <<extend>>
+createData <|-down- (Создание\n задачи) : <<extend>>
+
+read <|-up- (Просмотр\n задач) : <<extend>>
+read <|-down- (Просмотр\n личных\n проектов) : <<extend>>
+read <|-left- (Просмотр\n публичных\n проектов) : <<extend>>
+
+update <|-up- (Обновление\n задач) : <<extend>>
+update <|-down- (Обновление\n личных\n проектов) : <<extend>>
+
+delete <|- (Удаление\n задач) : <<extend>>
+delete <|-down- (Удаление\n личных\n проектов) : <<extend>>
+
+
+
+@enduml
