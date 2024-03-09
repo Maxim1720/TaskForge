@@ -23,7 +23,6 @@ class TaskController extends Controller
         $queryTransformer = new ProjectTasksQuery($project->id);
         $queryParams = $queryTransformer->filter($request);
         return TaskResource::collection(Task::query()->where($queryParams)->paginate());
-//        return TaskResource::collection(Task::query()->paginate());
     }
 
     /**
@@ -32,10 +31,6 @@ class TaskController extends Controller
     public function create()
     {
 
-//        Task::creating(function (){
-//
-//        });
-        //
     }
 
     /**
@@ -45,12 +40,7 @@ class TaskController extends Controller
     {
 
         $taskJson = $request->json()->all();
-//        $isDone = $taskJson["isDone"];
-//        unset($taskJson["isDone"]);
-//        $taskJson["done"] = $isDone;
         $task = new Task(ArrayKeysTransformator::toWithUnderscores($taskJson));
-
-//        dd($task);
         $task->save();
         return new TaskResource($task);
     }
@@ -76,9 +66,6 @@ class TaskController extends Controller
      */
     public function destroy(Project $project, Task $task)
     {
-//        dd($project, $task);
-//        $id = Task::query()->delete($task->id);
-//        dd($id);
         Task::destroy([$task->getAttribute("id")]);
         return Responser::createSuccessResponse(data: [], message: "task deleted");
     }
@@ -90,9 +77,3 @@ class TaskController extends Controller
         return new TaskResource($task);
     }
 }
-
-
-
-#int main(char **argv, int argc){
-#    printf("Hello, world!");
-#}
