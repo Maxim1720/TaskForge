@@ -97,7 +97,7 @@ const deleteTask = (task: Task) =>{
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="scss" >
 .container {
   height: inherit;
   width: inherit;
